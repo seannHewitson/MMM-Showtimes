@@ -1,0 +1,57 @@
+.xxsmall{
+  font-size: 13px;
+  line-height: 18px;
+}
+.cinema-listings,
+.cinema-listings ul,
+.cinema-listings ul li,
+.cinema-listings ul li ul{
+	font-family:'Titillium Web', sans-serif;
+  position:relative;
+	color:white;
+  padding:0;
+  margin:0;
+}
+.cinema-listings .title{
+  line-height:30px;
+  padding-bottom:15px;
+}
+
+.cinema-listings ul{
+  display:block;
+  list-style:none;
+  line-height:10px;
+  margin-bottom:5px;
+  margin-top:10px;
+}
+
+.cinema-listings ul li.film:nth-child(odd){
+	background:#09090E;
+	background:linear-gradient(90deg, rgba(0,0,0,1) 0%, #09090E 50%, rgba(0,0,0,1) 100%);
+}
+.cinema-listings ul li{
+  display:block;
+  line-height:10px;
+  padding-bottom:5px;
+  overflow:none;
+}
+.cinema-listings ul li span{
+  width:100%;
+  display:block;
+  text-align:left;
+}
+.cinema-listings ul li ul{
+  display:block;
+  position:relative;
+}
+.cinema-listings ul li ul li{
+  display:inline-block;
+  width:calc((100% / 5) - 3px);
+  background:none;
+  line-height:5px;s
+}
+
+/*   Alter below css maybe add in js with n+this.config.movies + 2   */
+.cinema-listings ul > li:nth-child(n+6){
+	display:none;
+}
