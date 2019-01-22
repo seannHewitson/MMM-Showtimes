@@ -7,6 +7,8 @@
 	color:white;
   padding:0;
   margin:0;
+  width:100%;
+  max-width:270px;
 }
 .cinema-listings .title{
   line-height:30px;
@@ -48,9 +50,4 @@
   width:calc((100% / 5) - 3px);
   background:none;
   line-height:5px;
-}
-
-/*   Alter below css maybe add in js with n+this.config.movies + 2   */
-.cinema-listings ul > li.film:nth-child(n+6){
-	display:none;
 }
