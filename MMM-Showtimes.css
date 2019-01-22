@@ -1,7 +1,3 @@
-.xxsmall{
-  font-size: 13px;
-  line-height: 18px;
-}
 .cinema-listings,
 .cinema-listings ul,
 .cinema-listings ul li,
@@ -43,15 +39,18 @@
 .cinema-listings ul li ul{
   display:block;
   position:relative;
+  max-width:100%;
+  height:auto;
+  max-height:auto;
 }
 .cinema-listings ul li ul li{
   display:inline-block;
   width:calc((100% / 5) - 3px);
   background:none;
-  line-height:5px;s
+  line-height:5px;
 }
 
 /*   Alter below css maybe add in js with n+this.config.movies + 2   */
-.cinema-listings ul > li:nth-child(n+6){
+.cinema-listings ul > li.film:nth-child(n+6){
 	display:none;
 }
