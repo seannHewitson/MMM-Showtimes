@@ -1,4 +1,4 @@
-# MMM-Rainbow - Local Cinema Showtimes for MagicMirror²
+# MMM-Showtimes - Local Cinema Showtimes for MagicMirror²
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
