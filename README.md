@@ -2,6 +2,9 @@
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
+Unfortunately this is UK only for now. If there's enough interest I will source a better API for global use.
+Although I'm sure most of you could easily alter a few lines with an API of your choice to find cinemas close to you.
+
 
 ## Preview
 
