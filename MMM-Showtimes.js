@@ -2,8 +2,8 @@ Module.register("MMM-Showtimes",{
   defaults: {
     movies: 5,
     cinema: 9521,
-    title: "Cinema Listings",
-    scrollTime: 3000,
+    title: "Vue Cinema Listings",
+    scrollTime: 1000,
   },
   getScripts: function() {
 		return ["jquery.js"];
@@ -13,6 +13,12 @@ Module.register("MMM-Showtimes",{
   },
   start: function(){
     Log.info("Starting Module: " + this.name);
+    var style = document.createElement("style");
+    style.innerHTML = `.cinema-listings ul > li.film:nth-child(n+` + (this.config.movies + 1) + `){
+    	display:none;
+    }
+    `;
+    document.getElementsByTagName('head')[0].appendChild(style);
     var interval = setInterval(function(){
       var li = $('#cinema li').first();
   			$('#cinema li').first().remove();
@@ -38,7 +44,6 @@ Module.register("MMM-Showtimes",{
       if(this.readyState === 4){
         if(this.status === 200){
           movies = JSON.parse(this.response);
-          // Log.info("Movies: " + movies);
           //  Iterate through movies.
           for(var i = 0; i < movies.results[0].listings.length; i++){
             //  Create and append movie.
@@ -52,7 +57,7 @@ Module.register("MMM-Showtimes",{
             movie.appendChild(movieTitle);
             //  Create and append Showtimes ul
             var showTimes = document.createElement("ul");
-            // showTimes.className = "align-right";
+            showTimes.className = "align-right";
             for(var j = 0; j < movies.results[0].listings[i].times.length; j++){
               //  Create and append Showtime li.
               var showTime = document.createElement("li");
