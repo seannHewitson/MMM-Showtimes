@@ -2,8 +2,8 @@ Module.register("MMM-Showtimes",{
   defaults: {
     movies: 5,
     cinema: 9521,
-    title: "Vue Cinema Listings",
-    scrollTime: 1000,
+    title: "Cinema Listings",
+    scrollTime: 3000,
   },
   getScripts: function() {
 		return ["jquery.js"];
