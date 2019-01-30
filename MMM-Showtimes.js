@@ -1,8 +1,8 @@
+var Showtimes;
 Module.register("MMM-Showtimes",{
   defaults: {
     movies: 5,
     cinema: 9521,
-    title: "Vue Cinema Listings",
     scrollTime: 1000,
   },
   getScripts: function() {
@@ -12,34 +12,63 @@ Module.register("MMM-Showtimes",{
     return ["MMM-Showtimes.css"];
   },
   start: function(){
-    Log.info("Starting Module: " + this.name);
+    Showtimes = this;
+    Log.info("Starting Module: " + Showtimes.name);
     var style = document.createElement("style");
-    style.innerHTML = `.cinema-listings ul > li.film:nth-child(n+` + (this.config.movies + 1) + `){
-    	display:none;
+    style.className = "Cinema";
+    style.innerHTML = `.cinema-listings ul > li.film:nth-child(n+` + (Showtimes.config.movies + 1) + `){
+      height:0;
+      margin:0;
+      padding:0;
     }
     `;
     document.getElementsByTagName('head')[0].appendChild(style);
-    var interval = setInterval(function(){
+    var scrollInterval = setInterval(function(){
       var li = $('#cinema li').first();
   			$('#cinema li').first().remove();
   			$('#cinema').append(li);
-    }, this.config.scrollTime);
+    }, Showtimes.config.scrollTime);
   },
   getDom: function(){
-    //  Create initial element.
     var wrapper = document.createElement("div");
     wrapper.className = "cinema-listings light";
-    //  Create and append Title.
-    var title = document.createElement("span");
-    title.className = "title bright";
-    title.innerHTML = this.config.title;
-    wrapper.appendChild(title);
-    //  Create and append Cinema ul.
+    wrapper.id = "Update-Showtimes";
+    wrapper.innerHTML = "";
+    return wrapper;
+  },
+  notificationReceived: function(notification, data, sender) {
+		if(notification === "iCLOCK_MIDNIGHT"){
+        var wrapper = document.getElementById("Update-Showtimes");
+        wrapper.innerHTML = "";
+        var cinema = Showtimes.getListings();
+        wrapper.appendChild(cinema);
+		} else if(notification === "iCLOCK_5_MIN")
+      setTimeout(Showtimes.getLate(data), 1000);
+	},
+  getLate: function(data){
+    var films = document.getElementsByClassName('film');
+    for(var i = 0; i < films.length; i++){
+      var times = films[i].getElementsByTagName('li');
+      for(var j = 0; j < times.length; j++){
+        var inner = times[j].innerHTML.split(":");
+        if(parseInt(inner[0]) < parseInt(data.hour)){
+          if(!times[j].classList.contains("red"))
+            times[j].classList.add("red");
+        }
+        else if(parseInt(inner[0]) == parseInt(data.hour))
+          if(parseInt(inner[1]) < parseInt(data.minute)){
+            if(!times[j].classList.contains("red"))
+              times[j].classList.add("red");
+          }
+      }
+    }
+  },
+  getListings: function(){
     var cinema = document.createElement("ul");
     cinema.id = "cinema";
     //  Fetch Movies and show times.
     var request = new XMLHttpRequest();
-    request.open("GET", "https://api.cinelist.co.uk/get/times/many/" + this.config.cinema, true);
+    request.open("GET", "https://api.cinelist.co.uk/get/times/many/" + Showtimes.config.cinema, true);
     request.onreadystatechange = function(){
       if(this.readyState === 4){
         if(this.status === 200){
@@ -69,17 +98,13 @@ Module.register("MMM-Showtimes",{
             cinema.appendChild(movie);
           }
         } else if(this.status === 401){
-          Log.error(this.name + ": 401 UNAUTHORIZED.");
+          Log.error(Showtimes.name + ": 401 UNAUTHORIZED.");
         } else {
-          Log.error(this.name + ": Error Loading Cinema Listings.");
+          Log.error(Showtimes.name + ": Error Loading Cinema Listings.");
         }
       }
     };
     request.send();
-    wrapper.appendChild(cinema);
-    return wrapper;
+    return cinema;
   },
-  getHeader: function() {
-		return this.config.title;
-	},
 });
